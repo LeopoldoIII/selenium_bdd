@@ -1,0 +1,9 @@
+{
+  "url": "https://www.google.com",
+  "headless": false,
+  "browser": "chrome",
+  "username": "your_username",
+  "password": "your_password",
+  "chromedriver_path":"/opt/homebrew/bin/chromedriver",
+  "implicit_wait_time": 30
+}
