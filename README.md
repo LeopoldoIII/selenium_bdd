@@ -14,3 +14,8 @@ source your venv
 install modules 
 
     pip3 install -r requirements.txt
+
+
+chromedriver installation 
+
+    brew install --cask chromedriver
