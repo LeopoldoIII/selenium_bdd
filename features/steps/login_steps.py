@@ -7,10 +7,10 @@ from utils.config_reader import get_property
 @given('I open the login page')
 def step_open_login_page(context):
     context.driver.get(get_property('url'))
-    login_page = LoginPage(context.driver)
-    login_page.enter_username("your_username")
-    login_page.enter_password("your_password")
-    login_page.click_login()
+    # login_page = LoginPage(context.driver)
+    # login_page.enter_username("your_username")
+    # login_page.enter_password("your_password")
+    # login_page.click_login()
 
 
 @when('I enter valid username and password')
