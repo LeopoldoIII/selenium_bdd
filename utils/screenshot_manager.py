@@ -1,5 +1,10 @@
 import os
 from datetime import datetime
+import allure
+
+from utils.logger import get_logger
+
+logger = get_logger("screenshot_manager")
 
 
 class ScreenshotManager:
@@ -8,21 +13,28 @@ class ScreenshotManager:
     @classmethod
     def initialize_directory(cls):
         if not os.path.exists(cls.directory):
-            os.makedirs(cls.directory)
+            os.makedirs(cls.directory, exist_ok=True)
 
     @classmethod
     def take_screenshot(cls, driver, step_name):
         cls.initialize_directory()
 
-        # Generate the timestamp
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        clean_step_name = step_name.replace(" ", "_").replace("/", "_").replace('"', "")
+        filename = f"{cls.directory}/{clean_step_name}_{timestamp}.png"
 
-        # Clean up the step name to use it in the filename
-        step_name = step_name.replace(" ", "_")
+        try:
+            driver.save_screenshot(filename)
+            logger.info(f"Screenshot saved to {filename}")
 
-        # Create the filename
-        filename = f"{cls.directory}/{step_name}_{timestamp}.png"
+            # Attach to Allure Report
+            with open(filename, "rb") as image_file:
+                allure.attach(
+                    image_file.read(),
+                    name=step_name,
+                    attachment_type=allure.attachment_type.PNG
+                )
+        except Exception as e:
+            logger.error(f"Failed to capture screenshot for '{step_name}': {e}")
 
-        # Take the screenshot and save it
-        driver.save_screenshot(filename)
         return filename

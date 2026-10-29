@@ -1,4 +1,4 @@
-from behave import given, when, then
+from behave import then
 
 from utils.screenshot_manager import ScreenshotManager
 
